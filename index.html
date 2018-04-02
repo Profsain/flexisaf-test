@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>My Github Profile App</title>
+    <link rel="stylesheet" type= "text/css" href="styles/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!--  JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+     <!-- navigation bar -->
+        <nav class="navbar navbar-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand"><i class="glyphicon glyphicon-user"> GITHUB PADI APP</i></a>
+            </div>
+        </nav>
+        
+        <!-- main body of the application -->
+        <main>
+          <div class="container" id="app">
+            <div class="jumbotron">
+              <h2>Github User Profile App</h2>
+            </div>
+
+            <!-- github user list -->
+            <div class="col-sm-6">
+              <div class="panel panel-primary">
+                <div class="panel panel-heading">Github Padi</div>
+                <div class="panel-body">
+                  <!--- Search box -->
+                  <div class="inner-addon left-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                    <input type="text" class="form-control" placeholder="Search" v-model="search"/>
+                    <p> {{ search }}</p>
+                  </div>
+                  
+                  <!-- user profile list -->
+                  <div class="row" v-for="result in results" v-on:click="usersInfo">
+                    <div class="col-sm-3">
+                      <img :src="result.avatar_url" class="img-circle" width="50" height="50">
+                    </div>
+                    <div class="col-sm-9">
+                      <p>username: <b>{{ result.login}}</b></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- User Profile info -->
+            <div class="col-sm-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">User Profile</div>
+                <div class="panel-body">
+                  <div class="col-md-6">
+                    <img src="images/pic2.jpg" alt="github users picture" class="img-rounded" 
+                    width="200" height="250">
+                  </div>
+                  <div class="col-md-6">
+                    <p>Name: <b>Profsain Hussain</b></p>
+                    <p>Location: <b>Abuja Nigeria</b></p>
+                    <p>Bio: Aspiring Full stack developer from Nigeria</p>
+                    <p>Github Repo: <b>50</b></p>
+                    <p>Follower: <b>500</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+    <script src="vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          results: [],
+          search: '',
+        },
+
+        mounted() {
+          axios.get("https://api.github.com/users")
+          .then(response => {this.results=response.data})
+          .catch(error => {
+            this.results = 'There is an error:' + error.massage
+          })
+        },
+
+        
+      });
+    </script>
+  </body>
+</html>
